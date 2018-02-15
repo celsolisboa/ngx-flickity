@@ -12,7 +12,7 @@ export class FlickityDirective implements AfterContentInit, OnDestroy {
 
   @Input('flickity') config: FlickityOptions = {};
   @Output() slideSelect = new EventEmitter<number>();
-  @Output() cellStaticClick = new EventEmitter<number>();
+  @Output() cellStaticClick = new EventEmitter<any>();
   @Output() childrenUpdated = new EventEmitter<void>();
 
   private flkty: any;
@@ -52,8 +52,12 @@ export class FlickityDirective implements AfterContentInit, OnDestroy {
     });
 
     this.flkty.on('staticClick', (_event: any, _pointer: any, _cellElement: any, cellIndex: any) => {
-      this.cellStaticClick.emit(cellIndex);
+      this.cellStaticClick.emit({'flkty': this, 'cellIndex': cellIndex});
     });
+
+    setTimeout(() => {
+      this.select(this.config.initialIndex);
+    }, 3000);
 
     this.updateElements();
   }
@@ -152,15 +156,15 @@ export class FlickityDirective implements AfterContentInit, OnDestroy {
   }
 
   private updateElements() {
-    if (!this.flkty || this.appendElements.length == 0) {
-      return;
+    if (this.flkty && this.appendElements.length != 0) {
+      this.appendElements.forEach(el => {
+        this.flkty.append(el);
+      });
+      this.appendElements = [];
+      this.resize();
+      this.childrenUpdated.emit();
     }
 
-    this.appendElements.forEach(el => this.flkty.append(el));
-    this.appendElements = [];
-
-    this.resize();
-    this.childrenUpdated.emit();
     this.childrenUpdate = setTimeout(() => this.updateElements(), this.childrenUpdateInterval);
   }
 

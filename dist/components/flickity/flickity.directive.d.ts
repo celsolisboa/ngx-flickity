@@ -6,7 +6,7 @@ export declare class FlickityDirective implements AfterContentInit, OnDestroy {
     private appConfigService;
     config: FlickityOptions;
     slideSelect: EventEmitter<number>;
-    cellStaticClick: EventEmitter<number>;
+    cellStaticClick: EventEmitter<any>;
     childrenUpdated: EventEmitter<void>;
     private flkty;
     private appendElements;
