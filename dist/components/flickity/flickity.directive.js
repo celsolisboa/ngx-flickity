@@ -37,9 +37,6 @@ var FlickityDirective = /** @class */ (function () {
         this.flkty.on('staticClick', function (_event, _pointer, _cellElement, cellIndex) {
             _this.cellStaticClick.emit({ 'flkty': _this, 'cellIndex': cellIndex });
         });
-        setTimeout(function () {
-            _this.select(_this.config.initialIndex);
-        }, 3000);
         this.updateElements();
     };
     FlickityDirective.prototype.destroy = function () {
@@ -142,7 +139,10 @@ var FlickityDirective = /** @class */ (function () {
         this.flkty.select(index, isWrapped, isInstant);
     };
     FlickityDirective.decorators = [
-        { type: core_1.Directive, args: [{ selector: '[flickity]' },] },
+        { type: core_1.Directive, args: [{
+                    selector: '[flickity]',
+                    exportAs: 'flickityDirective'
+                },] },
     ];
     /** @nocollapse */
     FlickityDirective.ctorParameters = function () { return [

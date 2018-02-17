@@ -7,7 +7,10 @@ import {
 import { FlickityOptions } from "../../interfaces/flickity-options.interface";
 import { AppConfigService } from '../../services/app-config.service';
 
-@Directive({ selector: '[flickity]' })
+@Directive({
+    selector: '[flickity]',
+    exportAs:'flickityDirective'
+})
 export class FlickityDirective implements AfterContentInit, OnDestroy {
 
   @Input('flickity') config: FlickityOptions = {};
@@ -54,10 +57,6 @@ export class FlickityDirective implements AfterContentInit, OnDestroy {
     this.flkty.on('staticClick', (_event: any, _pointer: any, _cellElement: any, cellIndex: any) => {
       this.cellStaticClick.emit({'flkty': this, 'cellIndex': cellIndex});
     });
-
-    setTimeout(() => {
-      this.select(this.config.initialIndex);
-    }, 3000);
 
     this.updateElements();
   }
